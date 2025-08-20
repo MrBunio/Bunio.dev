@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -129,6 +129,19 @@
       50% { transform: translateY(-5px); }
     }
 
+    /* Spadające Nyan Caty */
+    .nyan {
+      position: fixed;
+      top: -100px;
+      width: 50px;
+      opacity: 0.6;
+      z-index: 9999;
+      pointer-events: none;
+    }
+    @keyframes fall {
+      0% { top: -100px; }
+      100% { top: 100%; }
+    }
   </style>
 </head>
 <body>
@@ -202,6 +215,22 @@
       const saved = localStorage.getItem('theme');
       if (saved) document.documentElement.setAttribute('data-theme', saved);
     })();
+
+    function createNyan() {
+      const cat = document.createElement('img');
+      cat.src = 'https://i.redd.it/k5v48axtppqc1.jpeg';
+      cat.classList.add('cat');
+      document.body.appendChild(cat);
+
+      cat.style.left = `${Math.random() * window.innerWidth}px`;
+      cat.style.animation = `fall ${Math.random() * 3 + 2}s linear infinite`;
+
+      cat.addEventListener('animationiteration', () => {
+        cat.remove();
+      });
+    }
+
+    setInterval(createNyan, 2000);
   </script>
 </body>
 </html>
