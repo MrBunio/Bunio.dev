@@ -119,24 +119,15 @@
       font-size: 1.2rem;
     }
 
-    .bunny-effects {
-      display: inline-block;
-      margin-left: 0.5rem;
-      animation: bunny-hop 1s ease-in-out infinite;
-    }
-    @keyframes bunny-hop {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-5px); }
-    }
-
-    /* Spadające Nyan Caty */
-    .nyan {
+    /* spadające koty */
+    .cat {
       position: fixed;
       top: -100px;
-      width: 50px;
-      opacity: 0.6;
+      width: 35px;
+      opacity: 0.4;
       z-index: 9999;
       pointer-events: none;
+      animation-name: fall;
     }
     @keyframes fall {
       0% { top: -100px; }
@@ -191,6 +182,7 @@
         <tr>
           <td class="rainbow">-༺|𝓑𝓮𝓷𝓼𝓪|༻</td>
           <td>❤️</td>
+        </tr>
       </table>
     </section>
   </main>
@@ -220,14 +212,16 @@
       const cat = document.createElement('img');
       cat.src = 'https://i.redd.it/k5v48axtppqc1.jpeg';
       cat.classList.add('cat');
-      document.body.appendChild(cat);
 
       cat.style.left = `${Math.random() * window.innerWidth}px`;
-      cat.style.animation = `fall ${Math.random() * 3 + 2}s linear infinite`;
+      const duration = Math.random() * 3 + 3; // 3–6s
+      cat.style.animationDuration = `${duration}s`;
 
-      cat.addEventListener('animationiteration', () => {
+      document.body.appendChild(cat);
+
+      setTimeout(() => {
         cat.remove();
-      });
+      }, duration * 1000);
     }
 
     setInterval(createNyan, 2000);
