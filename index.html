@@ -119,6 +119,35 @@
       font-size: 2rem;
       display: inline-block;
     }
+    
+    .nyan-cat {
+      position: fixed;
+      font-size: 3rem;
+      z-index: 100;
+      pointer-events: none;
+      animation: nyanFly 10s linear infinite;
+      opacity: 0.8;
+    }
+    
+    @keyframes nyanFly {
+      0% {
+        transform: translateX(-100px) rotate(0deg);
+        top: 10%;
+      }
+      25% {
+        top: 30%;
+      }
+      50% {
+        top: 60%;
+      }
+      75% {
+        top: 20%;
+      }
+      100% {
+        transform: translateX(calc(100vw + 100px)) rotate(360deg);
+        top: 40%;
+      }
+    }
   </style>
 </head>
 <body>
@@ -151,7 +180,6 @@
         </tr>
         <tr><td class="rainbow">angel of bnuuy 🐰</td><td>🐰 ❤️❤️</td></tr>
         <tr><td class="rainbow">Sabubu (ccet) 👑</td><td>❤️❤️</td></tr>
-        <tr><td class="rainbow">Mosin :3 👑</td><td>❤️❤️</td>
         <tr><td class="rainbow">Mocchi</td><td>❤️</td></tr>
         <tr><td class="rainbow">Pinkk Rose</td><td>❤️</td></tr>
         <tr><td class="rainbow">Evil Willibubu 👑</td><td>❤️❤️</td></tr>
@@ -161,7 +189,7 @@
         <tr><td class="rainbow">fartprincess30 bibi(bea)</td><td>❤️</td></tr>
         <tr><td class="rainbow">Soap (deltarune one)</td><td>❤️ Deltarune fan spotted</td></tr>
         <tr><td>Gerb</td><td>❤️</td></tr>
-        <tr><td>𝕻𝖊𝖙𝖊𝖗 (unc)</td><td>❤️ biggest unc</td>
+        <tr><td>𝕻𝖊𝖙𝖊𝖗 (unc)</td><td>❤️ biggest unc</td></tr>
         <tr><td>divya #musicalfreak</td><td>❤️</td></tr>
         <tr><td>Arzhel</td><td>❤️</td></tr>
         <tr><td>Fluffy Quixaq</td><td>❤️</td></tr>
@@ -189,6 +217,10 @@
     <div id="youtube-player" style="display:none;">
       <iframe id="nyan-video" width="0" height="0" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     </div>
+    
+    <audio id="chaos-audio" loop>
+      <source src="https://assets.mixkit.co/sfx/preview/mixkit-arcade-retro-game-over-213.mp3" type="audio/mpeg">
+    </audio>
   </main>
 
   <footer>
@@ -258,6 +290,27 @@
         }
       }, 2100);
     }
+    
+    function createNyanCat() {
+      const nyanCat = document.createElement('div');
+      nyanCat.className = 'nyan-cat';
+      nyanCat.innerHTML = '🐱🌈';
+      
+      const delay = Math.random() * 5;
+      nyanCat.style.animationDelay = `${delay}s`;
+      
+      const top = Math.random() * 80;
+      nyanCat.style.top = `${top}%`;
+      
+      document.body.appendChild(nyanCat);
+      
+      setTimeout(() => {
+        if (nyanCat.parentNode) {
+          document.body.removeChild(nyanCat);
+        }
+      }, 10000 + (delay * 1000));
+    }
+    
     window.addEventListener('load', () => {
       createConfetti();
     });
@@ -275,7 +328,6 @@
         
         document.body.appendChild(confetti);
         
-        // Animacja spadania
         const animationDuration = Math.random() * 3 + 2;
         confetti.style.animation = `
           fall ${animationDuration}s linear forwards,
@@ -289,6 +341,7 @@
         }, animationDuration * 1000);
       }
     }
+    
     const style = document.createElement('style');
     style.textContent = `
       @keyframes fall {
@@ -308,12 +361,39 @@
     document.head.appendChild(style);
 
     let chaos = false;
+    let audioStarted = false;
+    
+    function startAudio() {
+      if (audioStarted) return;
+      
+      const chaosAudio = document.getElementById('chaos-audio');
+      chaosAudio.play().then(() => {
+        audioStarted = true;
+        console.log("Audio started successfully");
+      }).catch(error => {
+        console.log("Audio play failed:", error);
+      });
+    }
+    
+    document.addEventListener('click', function audioInit() {
+      startAudio();
+      document.removeEventListener('click', audioInit);
+    });
+    
     document.getElementById("chaos-btn").addEventListener("click", () => {
       if (chaos) return;
       chaos = true;
       document.getElementById("chaos-btn").style.display = "none";
       
+      startAudio();
+      
       document.body.classList.add('chaos-mode');
+
+      for (let i = 0; i < 5; i++) {
+        createNyanCat();
+      }
+      
+      const nyanInterval = setInterval(createNyanCat, 2000);
 
       const iframe = document.getElementById("nyan-video");
       iframe.src = "https://www.youtube.com/embed/jIQ6UV2onyI?autoplay=1&loop=1&playlist=jIQ6UV2onyI";
