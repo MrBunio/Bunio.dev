@@ -1,0 +1,28 @@
+{
+  "site": {
+    "title": "Bunio - Retired Dev",
+    "description": "Personal portfolio of a retired developer who loves cats and chatting",
+    "keywords": "portfolio, developer, retired, cats, games",
+    "author": "Bunio",
+    "language": "en"
+  },
+  "features": {
+    "darkMode": true,
+    "animations": true,
+    "multilingual": true,
+    "chaosMode": true,
+    "easterEggs": true
+  },
+  "social": {
+    "github": "https://github.com/MrBunio",
+    "email": "contact.Bunio@gmail.com",
+    "discord": "Bunio"
+  },
+  "colors": {
+    "primary": "#e17dab",
+    "secondary": "#9c89b8",
+    "accent": "#f0a6ca",
+    "background": "#ffffff",
+    "text": "#111111"
+  }
+}
