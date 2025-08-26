@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bunio – Retired Dev</title>
+  <style>
+    :root {
+      --bg: #fff;
+      --text: #111;
+      --card-bg: #f9f9f9;
+      --accent: #e17dab;
+      --accent2: #9c89b8;
+      --accent3: #f0a6ca;
+    }
+    [data-theme="dark"] {
+      --bg: #1a1a1a;
+      --text: #f5f5f5;
+      --card-bg: #2a2a2a;
+      --accent: #ff91c1;
+      --accent2: #b19cd9;
+      --accent3: #ffb6c1;
+    }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      transition: background .3s, color .3s;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+    header { 
+      padding: 2rem; 
+      text-align: center; 
+      position: relative; 
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+      color: white;
+      margin-bottom: 2rem;
+      border-radius: 0 0 2rem 2rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+    h1 { 
+      font-size: 3rem; 
+      margin: 0; 
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+      letter-spacing: 1px;
+    }
+    main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem; position: relative; z-index: 2; }
+    .card {
+      background: var(--card-bg);
+      border-radius: 1.5rem;
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      transition: all 0.4s ease;
+      overflow: hidden;
+      position: relative;
+    }
+    .card h2 { 
+      margin-top: 0; 
+      color: var(--accent);
+      font-size: 1.8rem;
+      padding-bottom: 0.5rem;
+      display: inline-block;
+    }
+    footer { 
+      text-align: center; 
+      padding: 2rem; 
+      font-size: 0.9rem; 
+      opacity: 0.7; 
+      position: relative; 
+      z-index: 2; 
+      margin-top: 3rem;
+      border-top: 1px solid var(--accent3);
+    }
+    .theme-toggle {
+      cursor: pointer;
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: 2rem;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+      color: white;
+      font-size: 1rem;
+      margin-top: 1.5rem;
+      position: static;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      font-weight: bold;
+      letter-spacing: 0.5px;
+    }
+    a { 
+      color: var(--accent2); 
+      text-decoration: none;
+      transition: all 0.3s ease;
+      font-weight: 500;
+    }
+    a:hover { 
+      color: var(--accent);
+    }
+
+    .rainbow {
+      background: linear-gradient(90deg, #ff0000, #ff8000, #ffff00, #80ff00, #00ffff, #0000ff, #8000ff, #ff00ff, #ff0000);
+      background-size: 400% 100%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: rainbow 4s linear infinite;
+      font-weight: bold;
+    }
+    
+    .floating { 
+      animation: floating 3s ease-in-out infinite;
+    }
+    @keyframes floating {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+    
+    .pulse {
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    
+    .spin {
+      animation: spin 5s linear infinite;
+    }
+    @keyframes spin {
+      100% { transform: rotate(360deg); }
+    }
+    
+    .confetti {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      opacity: 0;
+      z-index: 1;
+      border-radius: 50%;
+      box-shadow: 0 0 10px currentColor;
+    }
+    
+    @keyframes rainbow {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 400% 50%; }
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin: 1.5rem 0;
+      border-radius: 1rem;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    th {
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+      color: white;
+      padding: 1.2rem;
+      text-align: left;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.9rem;
+    }
+    td {
+      padding: 1rem 1.2rem;
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+    tr:last-child td {
+      border-bottom: none;
+    }
+    
+    tr td:first-child:hover {
+      opacity: 0.3;
+    }
+    
+    .chaos-mode .card {
+      background: transparent !important;
+      box-shadow: none !important;
+      border: none !important;
+    }
+    
+    .chaos-mode table {
+      display: none !important;
+    }
+    
+    .chaos-mode .rainbow {
+      opacity: 1 !important;
+      position: static !important;
+    }
+    
+    .special-section {
+      text-align: center;
+      margin: 3rem 0;
+      padding: 2rem;
+      border-radius: 2rem;
+      background: linear-gradient(135deg, rgba(225, 125, 171, 0.1) 0%, rgba(156, 137, 184, 0.1) 100%);
+    }
+    
+    .cat-emoji {
+      font-size: 3rem;
+      display: inline-block;
+      margin: 1rem 0;
+      filter: drop-shadow(0 5px 10px rgba(0,0,0,0.2));
+    }
+    
+    .glow {
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+    
+    @keyframes glow {
+      from {
+        text-shadow: 0 0 5px #fff, 0 0 10px var(--accent), 0 0 15px var(--accent);
+      }
+      to {
+        text-shadow: 0 0 10px #fff, 0 0 20px var(--accent2), 0 0 30px var(--accent2);
+      }
+    }
+    
+    .fade-in {
+      animation: fadeIn 1.5s ease-in-out;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .typewriter {
+      overflow: hidden;
+      border-right: 3px solid var(--accent);
+      white-space: nowrap;
+      margin: 0 auto;
+      letter-spacing: 1px;
+      animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+    }
+    
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
+    }
+    
+    @keyframes blink-caret {
+      from, to { border-color: transparent }
+      50% { border-color: var(--accent); }
+    }
+    
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+    
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: var(--accent3);
+      border-radius: 50%;
+      animation: particleFloat 20s linear infinite;
+      opacity: 0.6;
+    }
+    
+    @keyframes particleFloat {
+      0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.6;
+      }
+      90% {
+        opacity: 0.6;
+      }
+      100% {
+        transform: translateY(-100px) rotate(360deg);
+        opacity: 0;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      header { padding: 1.5rem; }
+      h1 { font-size: 2.2rem; }
+      .card { padding: 1.5rem; }
+      .theme-toggle { padding: 0.7rem 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="particles" id="particles"></div>
+  
+  <header id="main-header">
+    <h1 class="floating glow">Hi, I'm Bunio 👋</h1>
+    <p id="url-display" class="typewriter">Retired dev • Loves chit‑chat 💬 • Cat person 🐱 • Open to new friends ✨</p>
+    <button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
+  </header>
+
+  <main>
+    <section class="card pulse fade-in">
+      <h2>About Me</h2>
+      <p>I’m a retired developer who enjoys relaxing, chit-chatting with people, sharing ideas, and of course, cats. 🐾 Always happy to meet new friends online.</p>
+    </section>
+
+    <section class="card fade-in">
+      <h2>Contact</h2>
+      <ul>
+        <li>📧 Email: <a href="mailto:contact.Bunio@gmail.com">contact.Bunio@gmail.com</a></li>
+        <li>💻 GitHub: <a href="https://github.com/MrBunio" target="_blank">MrBunio</a></li>
+      </ul>
+    </section>
+
+    <section class="card fade-in">
+      <h2>Approved Discord Users Info</h2>
+      <p>If you want to be on the Approved Discord Users List, contact me via my email or discord. For a rainbow nickname, you need to solve my quiz. Feel free to share with me with your ideas about this list or website. I love you guys. ❤️</p>
+    </section>
+
+    <section class="card fade-in">
+      <h2>Approved Discord Users</h2>
+      <table id="users-table">
+        <tr>
+          <th>Nickname</th>
+          <th>Notes</th>
+        </tr>
+        <tr><td class="rainbow">angel of bnuuy 🐰</td><td>🐰 ❤️❤️</td></tr>
+        <tr><td class="rainbow">Sabubu (ccet) 👑</td><td>❤️❤️</td></tr>
+        <tr><td class="rainbow">Mocchi</td><td>❤️</td></tr>
+        <tr><td class="rainbow">Pinkk Rose</td><td>❤️</td></tr>
+        <tr><td class="rainbow">Evil Willibubu 👑</td><td>❤️❤️</td></tr>
+        <tr><td>18 Marshy Silver Bubu</td><td>❤️</td></tr>
+        <tr><td class="rainbow">Alastor</td><td>🎙️ ❤️❤️</td></tr>
+        <tr><td class="rainbow">༺|𝓑𝓮𝓷𝓼𝓪|༻</td><td>❤️</td></tr>
+        <tr><td class="rainbow">fartprincess30 bibi(bea)</td><td>❤️</td></tr>
+        <tr><td class="rainbow">Soap (deltarune one)</td><td>❤️ Deltarune fan spotted</td></tr>
+        <tr><td>Gerb</td><td>❤️</td></tr>
+        <tr><td>𝕻𝖊𝖙𝖊𝖗 (unc)</td><td>❤️ biggest unc</td></tr>
+        <tr><td>divya #musicalfreak</td><td>❤️</td></tr>
+        <tr><td>Arzhel</td><td>❤️</td></tr>
+        <tr><td>Fluffy Quixaq</td><td>❤️</td></tr>
+        <tr><td>Pingu</td><td>❤️</td></tr>
+        <tr><td>Revolutionary Smile</td><td>❤️</td></tr>
+        <tr><td>THE Canni 🍪</td><td>❤️</td></tr>
+        <tr><td class="rainbow">Tuffcal | Angel of Ragebait</td><td>❤️</td></tr>
+        <tr><td class="rainbow">Vaso</td><td>meowl fan spotted ❤️</td></tr>
+      </table>
+    </section>
+
+    <div class="special-section fade-in">
+      <h2 class="glow">Special Section Just For You! 🎉</h2>
+      <p>You're awesome for visiting my page! Here's a virtual cat:</p>
+      <div class="cat-emoji spin">😺</div>
+      <p>Click anywhere to create more cats!</p>
+    </div>
+
+    <div style="text-align:center; margin:3rem;">
+      <button id="chaos-btn" style="background:linear-gradient(135deg, #ff6b6b 0%, #ff0000 100%); color:white; padding:1.2rem 2.5rem; font-size:1.5rem; border:none; border-radius:15px; cursor:pointer; box-shadow:0 8px 25px rgba(255,0,0,0.3); transition:all 0.3s ease;">
+        🚫 DO NOT CLICK 🚫
+      </button>
+    </div>
+
+    <div id="youtube-player" style="display:none;">
+      <iframe id="nyan-video" width="0" height="0" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    </div>
+    
+    <audio id="chaos-audio" loop>
+      <source src="https://assets.mixkit.co/sfx/preview/mixkit-arcade-retro-game-over-213.mp3" type="audio/mpeg">
+    </audio>
+  </main>
+
+  <footer>
+    <p>© 2025 Bunio | Version 2.7 🔧</p>
+  </footer>
+
+  <script>
+    function createParticles() {
+      const particlesContainer = document.getElementById('particles');
+      const colors = ['#e17dab', '#9c89b8', '#f0a6ca', '#ff91c1', '#b19cd9'];
+      
+      for (let i = 0; i < 50; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = Math.random() * 100 + 'vw';
+        particle.style.animationDelay = Math.random() * 20 + 's';
+        particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+        particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        const size = 2 + Math.random() * 4;
+        particle.style.width = size + 'px';
+        particle.style.height = size + 'px';
+        
+        particlesContainer.appendChild(particle);
+      }
+    }
+    
+    createParticles();
+
+    const titleEmojis = ["😺", "😸", "😹", "😻", "😼", "😽", "🙀", "😿", "😾", "🐱"];
+    let titleEmojiIndex = 0;
+    
+    function updateTitleEmoji() {
+      document.title = `Bunio – Retired Dev ${titleEmojis[titleEmojiIndex]}`;
+      titleEmojiIndex = (titleEmojiIndex + 1) % titleEmojis.length;
+    }
+    
+    setInterval(updateTitleEmoji, 2000);
+    
+    function toggleTheme() {
+      const current = document.documentElement.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    }
+    
+    (function() {
+      const saved = localStorage.getItem('theme');
+      if (saved) {
+        document.documentElement.setAttribute('data-theme', saved);
+      }
+    })();
+    
+    document.addEventListener('click', (e) => {
+      if (e.target.id !== 'chaos-btn' && e.target.id !== 'theme-toggle') {
+        createCat(e.clientX, e.clientY);
+      }
+    });
+    
+    function createCat(x, y) {
+      const cat = document.createElement('div');
+      cat.innerHTML = '😺';
+      cat.style.position = 'fixed';
+      cat.style.left = (x - 15) + 'px';
+      cat.style.top = (y - 15) + 'px';
+      cat.style.fontSize = '2rem';
+      cat.style.zIndex = '10';
+      cat.style.pointerEvents = 'none';
+      cat.style.opacity = '0';
+      cat.style.transition = 'opacity 0.3s, transform 2s';
+      cat.style.filter = 'drop-shadow(0 2px 5px rgba(0,0,0,0.3))';
+      
+      document.body.appendChild(cat);
+      
+      setTimeout(() => {
+        cat.style.opacity = '1';
+      }, 10);
+      
+      setTimeout(() => {
+        cat.style.opacity = '0';
+        cat.style.transform = 'translateY(-100px) rotate(360deg)';
+      }, 100);
+      
+      setTimeout(() => {
+        if (cat.parentNode) {
+          document.body.removeChild(cat);
+        }
+      }, 2100);
+    }
+    
+    window.addEventListener('load', () => {
+      createConfetti();
+      
+      document.querySelectorAll('.card').forEach((card, index) => {
+        card.style.animationDelay = (index * 0.2) + 's';
+      });
+    });
+    
+    function createConfetti() {
+      const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'];
+      
+      for (let i = 0; i < 30; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.left = Math.random() * 100 + 'vw';
+        confetti.style.top = '-10px';
+        confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+        
+        document.body.appendChild(confetti);
+        
+        const animationDuration = Math.random() * 3 + 2;
+        confetti.style.animation = `fall ${animationDuration}s linear forwards, fade ${animationDuration}s linear forwards`;
+        
+        setTimeout(() => {
+          if (confetti.parentNode) {
+            document.body.removeChild(confetti);
+          }
+        }, animationDuration * 1000);
+      }
+    }
+    
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes fall {
+        to {
+          top: 100vh;
+          transform: translateX(${Math.random() > 0.5 ? '' : '-'}${Math.random() * 100}vw) rotate(${Math.random() * 360}deg);
+        }
+      }
+      
+      @keyframes fade {
+        0% { opacity: 0; }
+        10% { opacity: 1; }
+        90% { opacity: 1; }
+        100% { opacity: 0; }
+      }
+    `;
+    document.head.appendChild(style);
+
+    let chaos = false;
+    let audioStarted = false;
+    let nicknames = [];
+    let nicknameVelocities = [];
+    
+    function startAudio() {
+      if (audioStarted) return;
+      
+      const chaosAudio = document.getElementById('chaos-audio');
+      const playPromise = chaosAudio.play();
+      
+      if (playPromise !== undefined) {
+        playPromise.then(() => {
+          audioStarted = true;
+          console.log("Audio started successfully");
+        }).catch(error => {
+          console.log("Audio play failed:", error);
+        });
+      }
+    }
+    
+    document.addEventListener('click', function audioInit() {
+      startAudio();
+      document.removeEventListener('click', audioInit);
+    });
+    
+    document.getElementById("chaos-btn").addEventListener("click", () => {
+      if (chaos) return;
+      chaos = true;
+      document.getElementById("chaos-btn").style.display = "none";
+      
+      startAudio();
+      
+      document.body.classList.add('chaos-mode');
+
+      document.getElementById('main-header').style.background = 'transparent';
+      document.getElementById('main-header').style.boxShadow = 'none';
+      document.getElementById('users-table').style.display = 'none';
+
+      const nicknameElements = document.querySelectorAll('.rainbow');
+      nicknames = Array.from(nicknameElements);
+      
+      nicknameVelocities = nicknames.map(() => ({
+        x: (Math.random() * 4 + 2) * (Math.random() > 0.5 ? 1 : -1),
+        y: (Math.random() * 4 + 2) * (Math.random() > 0.5 ? 1 : -1)
+      }));
+      
+      nicknames.forEach((nickname, index) => {
+        nickname.style.position = 'absolute';
+        nickname.style.display = 'inline-block';
+        nickname.style.margin = '0';
+        nickname.style.transition = 'all 0.1s linear';
+        nickname.style.zIndex = '1000';
+        nickname.style.left = Math.random() * (window.innerWidth - 200) + 'px';
+        nickname.style.top = Math.random() * (window.innerHeight - 50) + 'px';
+        nickname.style.fontSize = '1.5rem';
+        nickname.style.pointerEvents = 'none';
+      });
+      
+      function bounceNicknames() {
+        if (!chaos) return;
+        
+        nicknames.forEach((nickname, index) => {
+          const rect = nickname.getBoundingClientRect();
+          let { x, y } = nicknameVelocities[index];
+          
+          if (rect.left <= 0 || rect.right >= window.innerWidth) {
+            x = -x;
+          }
+          
+          if (rect.top <= 0 || rect.bottom >= window.innerHeight) {
+            y = -y;
+          }
+          
+          nicknameVelocities[index] = { x, y };
+          
+          const currentLeft = parseFloat(nickname.style.left) || 0;
+          const currentTop = parseFloat(nickname.style.top) || 0;
+          nickname.style.left = (currentLeft + x) + 'px';
+          nickname.style.top = (currentTop + y) + 'px';
+        });
+        
+        requestAnimationFrame(bounceNicknames);
+      }
+      
+      bounceNicknames();
+
+      const iframe = document.getElementById("nyan-video");
+      iframe.src = "https://www.youtube.com/embed/jIQ6UV2onyI?autoplay=1&loop=1&playlist=jIQ6UV2onyI";
+      document.getElementById("youtube-player").style.display = "block";
+
+      const elements = document.querySelectorAll("h1, h2, p, th, li, .theme-toggle");
+      elements.forEach(el => {
+        el.style.position = "absolute";
+        el.style.display = "inline-block";
+        el.style.margin = "0";
+        el.style.transition = "all 0.5s linear";
+      });
+
+      function moveElements() {
+        elements.forEach(el => {
+          const maxX = window.innerWidth - el.offsetWidth;
+          const maxY = window.innerHeight - el.offsetHeight;
+          el.style.left = Math.random() * maxX + "px";
+          el.style.top = Math.random() * maxY + "px";
+        });
+      }
+
+      setInterval(moveElements, 500);
+
+      setInterval(() => {
+        document.body.style.background = `linear-gradient(90deg, hsl(${Math.random()*360},100%,50%), hsl(${Math.random()*360},100%,50%))`;
+      }, 200);
+    
+      setInterval(createConfetti, 1000);
+    });
+
+    const emojis = ["😀","😂","😎","🤖","👾","🐱","🌈","🔥","✨","💀","🍕","🎶"];
+    function updateUrlDisplay() {
+      const urlDisplay = document.getElementById("url-display");
+      const baseText = "Retired dev • Loves chit‑chat 💬 • Cat person 🐱 • Open to new friends ✨";
+      const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+      urlDisplay.textContent = baseText + " " + randomEmoji;
+    }
+    setInterval(updateUrlDisplay, 1000);
+    updateUrlDisplay();
+  </script>
+</body>
+</html>
