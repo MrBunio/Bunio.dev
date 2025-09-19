@@ -29,6 +29,8 @@
       transition: background .3s, color .3s;
       overflow-x: hidden;
       line-height: 1.6;
+      min-height: 100vh;
+      position: relative;
     }
     header { 
       padding: 2rem; 
@@ -46,7 +48,14 @@
       text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
       letter-spacing: 1px;
     }
-    main { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem; position: relative; z-index: 2; }
+    main { 
+      max-width: 900px; 
+      margin: 2rem auto; 
+      padding: 0 1.5rem; 
+      position: relative; 
+      z-index: 2; 
+      padding-bottom: 4rem;
+    }
     .card {
       background: var(--card-bg);
       border-radius: 1.5rem;
@@ -288,10 +297,135 @@
     }
     
     @media (max-width: 768px) {
-      header { padding: 1.5rem; }
-      h1 { font-size: 2.2rem; }
-      .card { padding: 1.5rem; }
-      .theme-toggle { padding: 0.7rem 1.2rem; }
+      header { 
+        padding: 1.5rem; 
+        border-radius: 0 0 1.5rem 1.5rem;
+      }
+      h1 { 
+        font-size: 2.2rem; 
+      }
+      .card { 
+        padding: 1.5rem; 
+        border-radius: 1rem;
+      }
+      .theme-toggle { 
+        padding: 0.7rem 1.2rem; 
+        font-size: 0.9rem;
+      }
+      table {
+        font-size: 0.85rem;
+      }
+      th, td {
+        padding: 0.8rem;
+      }
+      #chaos-btn {
+        padding: 1rem 2rem;
+        font-size: 1.2rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      header { 
+        padding: 1rem; 
+      }
+      h1 { 
+        font-size: 1.8rem; 
+      }
+      .card { 
+        padding: 1rem; 
+      }
+      table {
+        font-size: 0.8rem;
+      }
+      th, td {
+        padding: 0.6rem;
+      }
+      #url-display {
+        font-size: 0.9rem;
+      }
+    }
+
+    .chaos-element {
+      position: fixed;
+      pointer-events: none;
+      z-index: 1000;
+      font-size: 2rem;
+      animation: chaosFloat 10s linear infinite;
+    }
+    
+    @keyframes chaosFloat {
+      0% {
+        transform: translate(0, 0) rotate(0deg);
+      }
+      25% {
+        transform: translate(100px, 100px) rotate(90deg);
+      }
+      50% {
+        transform: translate(200px, 0) rotate(180deg);
+      }
+      75% {
+        transform: translate(100px, -100px) rotate(270deg);
+      }
+      100% {
+        transform: translate(0, 0) rotate(360deg);
+      }
+    }
+
+    .rotate {
+      animation: rotation 2s infinite linear;
+    }
+
+    @keyframes rotation {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(359deg);
+      }
+    }
+
+    .shake {
+      animation: shake 0.5s infinite;
+    }
+
+    @keyframes shake {
+      0% { transform: translate(1px, 1px) rotate(0deg); }
+      10% { transform: translate(-1px, -2px) rotate(-1deg); }
+      20% { transform: translate(-3px, 0px) rotate(1deg); }
+      30% { transform: translate(3px, 2px) rotate(0deg); }
+      40% { transform: translate(1px, -1px) rotate(1deg); }
+      50% { transform: translate(-1px, 2px) rotate(-1deg); }
+      60% { transform: translate(-3px, 1px) rotate(0deg); }
+      70% { transform: translate(3px, 1px) rotate(-1deg); }
+      80% { transform: translate(-1px, -1px) rotate(1deg); }
+      90% { transform: translate(1px, 2px) rotate(0deg); }
+      100% { transform: translate(1px, -2px) rotate(-1deg); }
+    }
+
+    .fly-text {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      white-space: nowrap;
+      animation: flyAround 15s linear infinite;
+    }
+
+    @keyframes flyAround {
+      0% {
+        transform: translate(0, 0) rotate(0deg);
+      }
+      25% {
+        transform: translate(calc(100vw - 100px), 100px) rotate(90deg);
+      }
+      50% {
+        transform: translate(calc(100vw - 200px), calc(100vh - 100px)) rotate(180deg);
+      }
+      75% {
+        transform: translate(100px, calc(100vh - 200px)) rotate(270deg);
+      }
+      100% {
+        transform: translate(0, 0) rotate(360deg);
+      }
     }
   </style>
 </head>
@@ -301,13 +435,13 @@
   <header id="main-header">
     <h1 class="floating glow">Hi, I'm Bunio 👋</h1>
     <p id="url-display" class="typewriter">Retired dev • Loves chit‑chat 💬 • Cat person 🐱 • Open to new friends ✨</p>
-    <button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
+    <button class="theme-toggle" id="theme-toggle">Toggle Theme</button>
   </header>
 
   <main>
     <section class="card pulse fade-in">
       <h2>About Me</h2>
-      <p>I’m a retired developer who enjoys relaxing, chit-chatting with people, sharing ideas, and of course, cats. 🐾 Always happy to meet new friends online.</p>
+      <p>I'm a retired developer who enjoys relaxing, chit-chatting with people, sharing ideas, and of course, cats. 🐾 Always happy to meet new friends online.</p>
     </section>
 
     <section class="card fade-in">
@@ -376,7 +510,7 @@
   </main>
 
   <footer>
-    <p>© 2025 Bunio | Version 2.7 🔧</p>
+    <p>© 2025 Bunio | Version 2.8 🔧</p>
   </footer>
 
   <script>
@@ -423,6 +557,8 @@
       if (saved) {
         document.documentElement.setAttribute('data-theme', saved);
       }
+      
+      document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
     })();
     
     document.addEventListener('click', (e) => {
@@ -516,19 +652,36 @@
     let audioStarted = false;
     let nicknames = [];
     let nicknameVelocities = [];
+    let flyingElements = [];
     
     function startAudio() {
       if (audioStarted) return;
       
       const chaosAudio = document.getElementById('chaos-audio');
+      
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      const audioContext = new AudioContext();
+      
+      const gainNode = audioContext.createGain();
+      gainNode.gain.value = 0.5;
+      
+      const source = audioContext.createMediaElementSource(chaosAudio);
+      source.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
       const playPromise = chaosAudio.play();
       
       if (playPromise !== undefined) {
         playPromise.then(() => {
           audioStarted = true;
-          console.log("Audio started successfully");
+          if (audioContext.state === 'suspended') {
+            audioContext.resume();
+          }
         }).catch(error => {
-          console.log("Audio play failed:", error);
+          document.body.addEventListener('click', function resumeAudio() {
+            chaosAudio.play();
+            document.body.removeEventListener('click', resumeAudio);
+          });
         });
       }
     }
@@ -536,7 +689,23 @@
     document.addEventListener('click', function audioInit() {
       startAudio();
       document.removeEventListener('click', audioInit);
-    });
+    }, { once: true });
+    
+    function makeTextFly(element) {
+      const flyElement = element.cloneNode(true);
+      flyElement.className = 'fly-text';
+      flyElement.style.left = Math.random() * window.innerWidth + 'px';
+      flyElement.style.top = Math.random() * window.innerHeight + 'px';
+      flyElement.style.fontSize = (Math.random() * 2 + 1) + 'rem';
+      flyElement.style.color = getRandomColor();
+      document.body.appendChild(flyElement);
+      flyingElements.push(flyElement);
+    }
+    
+    function getRandomColor() {
+      const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'];
+      return colors[Math.floor(Math.random() * colors.length)];
+    }
     
     document.getElementById("chaos-btn").addEventListener("click", () => {
       if (chaos) return;
@@ -551,23 +720,28 @@
       document.getElementById('main-header').style.boxShadow = 'none';
       document.getElementById('users-table').style.display = 'none';
 
+      const allTextElements = document.querySelectorAll('h1, h2, h3, p, li, td, th, a, span');
+      allTextElements.forEach(element => {
+        makeTextFly(element);
+      });
+
       const nicknameElements = document.querySelectorAll('.rainbow');
       nicknames = Array.from(nicknameElements);
       
       nicknameVelocities = nicknames.map(() => ({
-        x: (Math.random() * 4 + 2) * (Math.random() > 0.5 ? 1 : -1),
-        y: (Math.random() * 4 + 2) * (Math.random() > 0.5 ? 1 : -1)
+        x: (Math.random() * 6 + 3) * (Math.random() > 0.5 ? 1 : -1),
+        y: (Math.random() * 6 + 3) * (Math.random() > 0.5 ? 1 : -1)
       }));
       
       nicknames.forEach((nickname, index) => {
-        nickname.style.position = 'absolute';
+        nickname.style.position = 'fixed';
         nickname.style.display = 'inline-block';
         nickname.style.margin = '0';
         nickname.style.transition = 'all 0.1s linear';
         nickname.style.zIndex = '1000';
         nickname.style.left = Math.random() * (window.innerWidth - 200) + 'px';
         nickname.style.top = Math.random() * (window.innerHeight - 50) + 'px';
-        nickname.style.fontSize = '1.5rem';
+        nickname.style.fontSize = '1.8rem';
         nickname.style.pointerEvents = 'none';
       });
       
@@ -592,6 +766,7 @@
           const currentTop = parseFloat(nickname.style.top) || 0;
           nickname.style.left = (currentLeft + x) + 'px';
           nickname.style.top = (currentTop + y) + 'px';
+          nickname.style.transform = `rotate(${Math.random() * 360}deg)`;
         });
         
         requestAnimationFrame(bounceNicknames);
@@ -605,10 +780,11 @@
 
       const elements = document.querySelectorAll("h1, h2, p, th, li, .theme-toggle");
       elements.forEach(el => {
-        el.style.position = "absolute";
+        el.style.position = "fixed";
         el.style.display = "inline-block";
         el.style.margin = "0";
         el.style.transition = "all 0.5s linear";
+        el.style.zIndex = "1000";
       });
 
       function moveElements() {
@@ -617,16 +793,34 @@
           const maxY = window.innerHeight - el.offsetHeight;
           el.style.left = Math.random() * maxX + "px";
           el.style.top = Math.random() * maxY + "px";
+          el.style.transform = `rotate(${Math.random() * 360}deg)`;
         });
       }
 
-      setInterval(moveElements, 500);
+      setInterval(moveElements, 800);
 
       setInterval(() => {
         document.body.style.background = `linear-gradient(90deg, hsl(${Math.random()*360},100%,50%), hsl(${Math.random()*360},100%,50%))`;
       }, 200);
     
-      setInterval(createConfetti, 1000);
+      setInterval(createConfetti, 500);
+      
+      const emojis = ["😺", "😸", "😹", "😻", "😼", "😽", "🙀", "😿", "😾", "🐱", "🌈", "🔥"];
+      setInterval(() => {
+        const emoji = document.createElement('div');
+        emoji.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+        emoji.className = 'chaos-element';
+        emoji.style.left = Math.random() * window.innerWidth + 'px';
+        emoji.style.top = Math.random() * window.innerHeight + 'px';
+        emoji.style.fontSize = (Math.random() * 3 + 2) + 'rem';
+        document.body.appendChild(emoji);
+        
+        setTimeout(() => {
+          document.body.removeChild(emoji);
+        }, 10000);
+      }, 500);
+      
+      document.body.classList.add('shake');
     });
 
     const emojis = ["😀","😂","😎","🤖","👾","🐱","🌈","🔥","✨","💀","🍕","🎶"];
@@ -636,7 +830,7 @@
       const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
       urlDisplay.textContent = baseText + " " + randomEmoji;
     }
-    setInterval(updateUrlDisplay, 1000);
+    setInterval(updateUrlDisplay, 3000);
     updateUrlDisplay();
   </script>
 </body>
