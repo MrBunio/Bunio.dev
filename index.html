@@ -365,6 +365,70 @@
                 }
             }
 
+            .cyber-stats {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 1.5rem;
+                margin: 2rem 0;
+            }
+
+            .stat-card {
+                background: linear-gradient(
+                    135deg,
+                    var(--accent) 0%,
+                    var(--accent2) 100%
+                );
+                color: white;
+                padding: 2rem;
+                border-radius: 1.5rem;
+                text-align: center;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+                position: relative;
+                overflow: hidden;
+            }
+
+            .stat-number {
+                font-size: 3.5rem;
+                font-weight: bold;
+                margin: 0.5rem 0;
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+                animation: countUp 2s ease-out;
+            }
+
+            .stat-label {
+                font-size: 1.1rem;
+                opacity: 0.9;
+                font-weight: 500;
+            }
+
+            @keyframes countUp {
+                from {
+                    transform: scale(0.5);
+                    opacity: 0;
+                }
+                to {
+                    transform: scale(1);
+                    opacity: 1;
+                }
+            }
+
+            .hacker-emoji {
+                font-size: 2.5rem;
+                display: block;
+                margin-bottom: 1rem;
+                animation: float 3s ease-in-out infinite;
+            }
+
+            @keyframes float {
+                0%,
+                100% {
+                    transform: translateY(0px) rotate(0deg);
+                }
+                50% {
+                    transform: translateY(-10px) rotate(5deg);
+                }
+            }
+
             @media (max-width: 768px) {
                 header {
                     padding: 1.5rem;
@@ -392,6 +456,13 @@
                     padding: 1rem 2rem;
                     font-size: 1.2rem;
                 }
+                .cyber-stats {
+                    grid-template-columns: 1fr;
+                    gap: 1rem;
+                }
+                .stat-number {
+                    font-size: 2.8rem;
+                }
             }
 
             @media (max-width: 480px) {
@@ -413,6 +484,9 @@
                 }
                 #url-display {
                     font-size: 0.9rem;
+                }
+                .stat-number {
+                    font-size: 2.2rem;
                 }
             }
 
@@ -561,6 +635,45 @@
                     I'm a retired developer who enjoys relaxing, chit-chatting
                     with people, sharing ideas, and of course, cats. 🐾 Always
                     happy to meet new friends online.
+                </p>
+            </section>
+
+            <section class="card fade-in">
+                <h2>Cyber Safety Stats 🛡️</h2>
+                <p>
+                    As part of my cyber safety work, I help keep Discord
+                    communities safe by removing malicious users and servers:
+                </p>
+
+                <div class="cyber-stats">
+                    <div class="stat-card">
+                        <div class="hacker-emoji">👨‍💻</div>
+                        <div class="stat-number" id="banned-users">0</div>
+                        <div class="stat-label">Users Banned</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="hacker-emoji">🔧</div>
+                        <div class="stat-number" id="terminated-servers">0</div>
+                        <div class="stat-label">Servers Terminated</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="hacker-emoji">🕵️</div>
+                        <div class="stat-number" id="ongoing-cases">0</div>
+                        <div class="stat-label">Ongoing Cases</div>
+                    </div>
+                </div>
+
+                <p
+                    style="
+                        text-align: center;
+                        margin-top: 1rem;
+                        font-size: 0.9rem;
+                        opacity: 0.8;
+                    "
+                >
+                    Keeping the digital world safer, one ban at a time! 🔒
                 </p>
             </section>
 
@@ -726,6 +839,12 @@
         </footer>
 
         <script>
+            const cyberStats = {
+                bannedUsers: 2,
+                terminatedServers: 1,
+                ongoingCases: 8,
+            };
+
             function createParticles() {
                 const particlesContainer = document.getElementById("particles");
                 const colors = [
@@ -784,6 +903,21 @@
                 localStorage.setItem("theme", next);
             }
 
+            function animateCounter(element, target, duration = 2000) {
+                const start = 0;
+                const increment = target / (duration / 16);
+                let current = start;
+
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        current = target;
+                        clearInterval(timer);
+                    }
+                    element.textContent = Math.floor(current).toLocaleString();
+                }, 16);
+            }
+
             (function () {
                 const saved = localStorage.getItem("theme");
                 if (saved) {
@@ -793,6 +927,21 @@
                 document
                     .getElementById("theme-toggle")
                     .addEventListener("click", toggleTheme);
+
+                setTimeout(() => {
+                    animateCounter(
+                        document.getElementById("banned-users"),
+                        cyberStats.bannedUsers,
+                    );
+                    animateCounter(
+                        document.getElementById("terminated-servers"),
+                        cyberStats.terminatedServers,
+                    );
+                    animateCounter(
+                        document.getElementById("ongoing-cases"),
+                        cyberStats.ongoingCases,
+                    );
+                }, 500);
             })();
 
             document.addEventListener("click", (e) => {
